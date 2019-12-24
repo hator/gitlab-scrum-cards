@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scrum Cards</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0.8cm 1cm 0.9cm;
+        }
+        @media print {
+            .card {
+                page-break-inside: avoid;
+                break-inside: avoid-page;
+            }
+        }
+        body {
+            display: grid;
+            grid-template-columns: 9.5cm 9.5cm;
+            grid-auto-rows: 5.6cm;
+            font-family: arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            font-size: 16pt;
+            margin: 0;
+            display: inline-block;
+        }
+        h2 {
+            font-size: 14pt;
+            margin: 0;
+        }
+        .info {
+            display: inline-block;
+            float: right;
+        }
+        .label {
+            font-size: 10px;
+            padding: 3px 5px;
+            border-radius: 3px;
+        }
+        .card {
+            border: 2px lightgray dashed;
+            padding: 5px;
+            grid-row: auto;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .description {
+            white-space: pre-wrap;
+            font-family: monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+<body>
+{% for issue in issues %}
+    <div class="card">
+        <div class="header">
+            <h1>#{{ issue.iid }}</h1>
+            <div class="info">
+                {% if issue.time_stats().human_time_estimate %}
+                    <span>&#9203; {{ issue.time_stats().human_time_estimate }}</span>
+                {% endif %}
+                {% if issue.weight %}
+                    <span>&#x2696; {{ issue.weight }}</span>
+                {% endif %}
+                {% for label in issue.labels %}
+                    {% if label.name not in ignored_labels %}
+                        <span
+                            class="label"
+                            style="background-color: {{ label.color }}; color: {{ label.text_color }}"
+                        >{{ label.name }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <h2>{{ issue.title }}</h2>
+        <p class="description">{{ issue.description }}</p>
+    </div>
+{% endfor %}
+</body>
+</html>

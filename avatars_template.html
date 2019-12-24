@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Avatars</title>
+    <style>
+        .avatar {
+            width: 1.5cm;
+        }
+    </style>
+</head>
+<body>
+    {% for avatar_url in avatars %}
+    <div class="user">
+        <img src="{{avatar_url}}" class="avatar">
+        <img src="{{avatar_url}}" class="avatar">
+    </div>
+    {% endfor %}
+</body>
+</html>
